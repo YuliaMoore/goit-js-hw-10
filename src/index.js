@@ -2,16 +2,12 @@ import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import './css/styles.css';
 import { fetchCountries } from './api/fetchCountries';
-
+import getRefs from './get-refs/getRefs';
 const DEBOUNCE_DELAY = 300;
 
 console.log(result);
 
-const refs = {
-  input: document.querySelector('#search-box'),
-  countryList: document.querySelector('.country-list'),
-  box: document.querySelector('.country-info'),
-};
+const refs = getRefs();
 
 refs.input.addEventListener('input', debounce(onInputHandler, DEBOUNCE_DELAY));
 
@@ -26,7 +22,7 @@ function onInputHandler(e) {
           'Too many matches found. Please enter a more specific name.'
         );
       } else if (data.length >= 2 && data.length <= 10) {
-        createCountryList(data);
+        createCounrysList(data);
         Notify.success('success');
       } else if (data.length === 1) {
         createCountry(data);
@@ -39,15 +35,23 @@ function onInputHandler(e) {
   console.log(inputName);
 }
 
-function createCountryList(countries) {
-  const markUp = countries.map(country => {
-    return `<li><img scr="${country.flags.svg}" width='60' height='40' alt="${country.name.official}"><p>${country.name.official}</p></li>`;
+function createCounrysList(countries) {
+  const markUP = countries.map(country => {
+    return `<li><img src="${country.flags.svg}" width='40' height='25' alt="${country.name.official}"><p>${country.name.official}</p></li>`;
   });
-  refs.countryList.innerHTML = markUp;
+  refs.countryList.innerHTML = markUP;
+}
+
+function createCountry(countries) {
+  const markUP = countries.map(country => {
+    return `<li><img src="${country.flags.svg}" width='60' height='40' alt="${country.name.official}"><p>${country.name.official}</p></li>`;
+  });
+  refs.countryList.innerHTML = markUP;
 
   const countryInfo = countries.map(country => {
-    return `<p> capital: ${country.capital}</p>
-        <p>languages:${Object.values(country.languages)}</p>`;
+    return `<p> capital:${country.capital}</p>
+    <p>population:${country.population}</p>
+    <p>languages:${Object.values(country.languages)}</p>`;
   });
   refs.box.innerHTML = countryInfo;
 }
