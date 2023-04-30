@@ -1,6 +1,5 @@
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import './css/styles.css';
 import { fetchCountries } from './api/fetchCountries';
 import getRefs from './get-refs/getRefs';
@@ -36,21 +35,23 @@ function onInputHandler(e) {
 
 function createCounrysList(countries) {
   const markUP = countries.map(country => {
-    return `<li><img src="${country.flags.svg}" width='40' height='25' alt="${country.name.official}"><p>${country.name.official}</p></li>`;
+    return `<li><div class="country-info__wrapper"><img class="country-info__flags" src="${country.flags.svg}" width='40' height='25' alt="${country.name.official}"><p>${country.name.official}</p></div></li>`;
   });
   refs.countryList.innerHTML = markUP;
 }
 
 function createCountry(countries) {
   const markUP = countries.map(country => {
-    return `<li><img src="${country.flags.svg}" width='60' height='40' alt="${country.name.official}"><p>${country.name.official}</p></li>`;
+    return `<li><div class="country-info__wrapper"><img class="country-info__flags" src="${country.flags.svg}" width='60' height='40' alt="${country.name.official}"><p>${country.name.official}</p></div></li>`;
   });
   refs.countryList.innerHTML = markUP;
 
   const countryInfo = countries.map(country => {
-    return `<p> capital:${country.capital}</p>
-    <p>population:${country.population}</p>
-    <p>languages:${Object.values(country.languages)}</p>`;
+    return `<p class="country-info__capital"> capital:${country.capital}</p>
+    <p class="country-info__population">population:${country.population}</p>
+    <p class="country-info__languages">languages:${Object.values(
+      country.languages
+    )}</p>`;
   });
   refs.box.innerHTML = countryInfo;
 }
