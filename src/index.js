@@ -54,7 +54,7 @@ function createCountry(countries) {
       country.languages
     )}</p></li>`;
   });
-  refs.countryList.innerHTML = markUP;
+  refs.countryList.innerHTML = markUP.join('');
 }
 //   const countryInfo = countries.map(country => {
 //     return `<p class="country-info__capital"> capital:${country.capital}</p>
